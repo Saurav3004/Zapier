@@ -27,7 +27,7 @@ model Zap {
   zapId String
   trigger Trigger?
   actions Action[]
-  zapRuns zapRun[]
+  zapRuns ZapRun[]
 }
 
 model Trigger {
@@ -58,8 +58,17 @@ model TriggerAvailable {
   triggers Trigger[]
 }
 
-model zapRun {
+model ZapRun {
   id String @id @default(uuid())
   zapId String
-  zapRun Zap @relation(fields:[zapId],references:[id])
+  metadata Json
+  zap Zap @relation(fields:[zapId],references:[id])
+  zapRunOutBox zapRunOutBox?
+  
+}
+
+model zapRunOutBox {
+  id String @id @default(uuid())
+  zapRunId String @unique
+  zapId ZapRun @relation(fields:[zapRunId],references:[id])
 }
