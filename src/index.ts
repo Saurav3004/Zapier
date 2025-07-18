@@ -10,14 +10,14 @@ app.post("/hooks/cache/:userId/:zapId",async (req,res) =>{
     const body = req.body
 
    await client.$transaction(async tx => {
-    const run = await client.zapRun.create({
+    const run = await tx.zapRun.create({
         data:{
             zapId:zapId,
             metadata: body
         }
     })
 
-    await client.zapRunOutBox.create({
+    await tx.zapRunOutBox.create({
     data:{
         zapRunId: run.id
     }
