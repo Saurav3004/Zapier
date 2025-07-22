@@ -28,7 +28,7 @@ async function main(){
       await consumer.commitOffsets([{
         topic: TOPIC_NAME,
         partition:partition,
-        offset:message.offset
+        offset: (parseInt(message.offset) + 1).toString()
       }])
     },
   })
