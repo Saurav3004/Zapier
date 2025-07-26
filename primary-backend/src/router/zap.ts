@@ -46,7 +46,9 @@ route.post("/",authMiddleware,async (req,res) => {
 })
 
 route.get("/",authMiddleware,(req,res) => {
-    console.log("signin created");
+    //@ts-ignore
+    const id = req.id
+    
 })
 
 route.get("/:zapId",authMiddleware,(req,res) => {
