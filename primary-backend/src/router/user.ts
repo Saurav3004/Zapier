@@ -4,11 +4,12 @@ import { SigninSchema, SignupSchema } from '../types';
 import { prismaClient } from '../db';
 import jwt from 'jsonwebtoken'
 import { JWT_PASSWORD } from '../config';
+import { email } from 'zod';
 
 const route = Router();
 
 route.post("/signup",async (req,res) => {
-    const body = req.body.username;
+    const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
 
     if(!parsedData.success){
@@ -44,7 +45,7 @@ route.post("/signup",async (req,res) => {
 })
 
 route.post("/signin",async (req,res) => {
-    const body = req.body.username;
+    const body = req.body;
     const parsedData = SigninSchema.safeParse(body);
 
     if(!parsedData.success){
@@ -86,7 +87,15 @@ route.get("/user",authMiddleware,async (req,res) => {
     where:{
         id
     },
-    
+    select:{
+        name:true,
+        email:true
+    }
+
+   })
+
+   return res.json({
+    user
    })
 
 })

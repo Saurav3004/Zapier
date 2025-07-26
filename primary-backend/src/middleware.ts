@@ -12,7 +12,7 @@ export function authMiddleware(req:Request,res:Response,next:NextFunction){
         next()
     } catch (error) {
         return res.status(403).json({
-            message:error
+            message: "You are not logged in"
         })
     }
 }
