@@ -1,10 +1,18 @@
 import { Router } from 'express'
 import { authMiddleware } from '../middleware';
+import { SignupSchema } from '../types';
 
 const route = Router();
 
 route.post("/signup",(req,res) => {
-    console.log("signup created");
+    const body = req.body.username;
+    const parsedData = SignupSchema.safeParse(body);
+
+    if(!parsedData.success){
+        return res.status(411).json({
+            message: "Incorrect inputs"
+        })
+    }
 })
 
 route.post("/signin",(req,res) => {
