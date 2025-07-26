@@ -15,7 +15,33 @@ route.post("/",authMiddleware,async (req,res) => {
         })
     }
     await prismaClient.$transaction(async tx => {
-        
+       const zap = await tx.zap.create({
+            data:{
+                triggerId:"",
+                actions: {
+                    create: parsedData.data.actions.map((x,index) => ({
+                        actionId:x.availableActionId,
+                        sortingOrder: index
+                    }))
+                }
+            }
+        })
+
+        const trigger = await tx.trigger.create({
+            data:{
+                triggerId: parsedData.data.availableTriggerId,
+                zapId:zap.id
+            }
+        })
+
+        await tx.zap.update({
+            where:{
+                id:zap.id
+            },
+            data:{
+                triggerId: trigger.id
+            }
+        })
     })
 })
 
