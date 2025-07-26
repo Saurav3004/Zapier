@@ -3,16 +3,16 @@ import { authMiddleware } from '../middleware';
 
 const route = Router();
 
-route.post("/signup",(req,res) => {
-    console.log("signup created");
+route.post("/",authMiddleware,(req,res) => {
+    console.log("create a zap");
 })
 
-route.post("/signin",(req,res) => {
+route.get("/",authMiddleware,(req,res) => {
     console.log("signin created");
 })
 
-route.post("/user",authMiddleware,(req,res) => {
-    console.log("signin handler");
+route.get("/:zapId",authMiddleware,(req,res) => {
+    console.log("specific zap");
 })
 
 export const zapRouter = route
